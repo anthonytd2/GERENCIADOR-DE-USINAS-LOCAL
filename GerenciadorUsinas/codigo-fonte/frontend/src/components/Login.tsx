@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Sun, Lock, Mail } from "lucide-react";
+import { Sun, Lock, Mail, UserPlus, User, Briefcase, FileText } from "lucide-react";
 import { Button } from "./ui/Button";
 
 export default function Login({ onLogin }: { onLogin: () => void }) {
   const [loading, setLoading] = useState(false);
+  const [modo, setModo] = useState<"login" | "registro">("login");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,13 +22,62 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
           <div className="p-4 bg-amber-500 rounded-2xl mb-4">
             <Sun className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-black text-slate-900">SolarManager</h1>
+          <h1 className="text-2xl font-black text-slate-900">Gerenciador Solar</h1>
           <p className="text-slate-500 font-medium">
-            Faça login para acessar o painel
+            {modo === "login" ? "Faça login para acessar o painel" : "Preencha os dados para registro"}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {modo === "registro" && (
+            <>
+              <div>
+                <label className="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">
+                  Nome Completo
+                </label>
+                <div className="relative">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                  <input
+                    required
+                    type="text"
+                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold outline-none focus:border-indigo-500"
+                    placeholder="Seu Nome Completo"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">
+                  Cargo
+                </label>
+                <div className="relative">
+                  <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                  <input
+                    required
+                    type="text"
+                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold outline-none focus:border-indigo-500"
+                    placeholder="Ex: Administrador, Técnico"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">
+                  CPF
+                </label>
+                <div className="relative">
+                  <FileText className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                  <input
+                    required
+                    type="text"
+                    className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold outline-none focus:border-indigo-500"
+                    placeholder="000.000.000-00"
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
           <div>
             <label className="block text-xs font-black text-slate-400 uppercase mb-2 ml-1">
               E-mail
@@ -59,8 +109,28 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
           </div>
 
           <Button type="submit" isLoading={loading} className="w-full mt-4">
-            Entrar no Sistema
+            {modo === "login" ? "Entrar no Sistema" : "Criar Conta e Entrar"}
           </Button>
+
+          <div className="pt-4 border-t border-slate-100 text-center">
+            {modo === "login" ? (
+              <button
+                type="button"
+                onClick={() => setModo("registro")}
+                className="text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-colors inline-flex items-center gap-1"
+              >
+                <UserPlus className="w-4 h-4" /> Não tem conta? Registre-se
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setModo("login")}
+                className="text-sm font-bold text-slate-600 hover:text-slate-800 transition-colors"
+              >
+                Já tem uma conta? Voltar ao Login
+              </button>
+            )}
+          </div>
         </form>
       </div>
     </div>

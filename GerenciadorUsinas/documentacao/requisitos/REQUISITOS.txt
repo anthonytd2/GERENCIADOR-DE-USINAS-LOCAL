@@ -1,0 +1,50 @@
+Documento de Requisitos – Gerenciador Solar
+1. Objetivo do Sistema
+O sistema Gerenciador Solar tem como objetivo centralizar, simplificar e automatizar a gestão comercial de contratos de energia solar por compensação (geração distribuída). A plataforma conecta Usinas Produtoras e Consumidores Beneficiários, permitindo o acompanhamento do volume de energia injetada (kWh), saldos retidos nas concessionárias e a apuração financeira automática (receita, custo e lucro líquido), eliminando a necessidade de controles manuais e planilhas complexas.
+
+2. Requisitos Funcionais (RF)
+Os requisitos funcionais descrevem o que o sistema deve fazer e quais ações o usuário pode realizar.
+
+RF01 - Painel de Indicadores (Dashboard): O sistema deve apresentar uma tela inicial com indicadores sumarizados, incluindo total de usinas, consumidores, contratos ativos e gráficos de performance financeira e de energia.
+
+RF02 - Gestão de Usinas: O sistema deve permitir gerenciar as Usinas Fornecedoras, armazenando o nome da usina e o custo de repasse da energia (valor bruto por kWh).
+
+RF03 - Gestão de Consumidores: O sistema deve permitir gerenciar os Clientes (Consumidores), armazenando o nome do cliente e a tarifa de venda contratada (valor fixo por kWh).
+
+RF04 - Criação de Vínculos (Contratos): O sistema deve permitir a vinculação comercial entre uma Usina e um Consumidor, permitindo definir o status do contrato (Ativo, Pendente, Encerrado).
+
+RF05 - Listagem e Filtros: O sistema deve listar todos os vínculos cadastrados, permitindo busca por texto (nome da usina ou cliente) e filtragem rápida por status.
+
+RF06 - Exclusão de Vínculos: O sistema deve permitir a exclusão de um contrato. A exclusão deve obrigatoriamente acionar um modal de confirmação para evitar perdas acidentais de dados.
+
+RF07 - Detalhamento do Vínculo: O sistema deve possuir uma tela de detalhes para cada contrato, exibindo as partes envolvidas, a Unidade Consumidora (UC), o saldo na concessionária, o volume total compensado e o lucro líquido retido (spread financeiro).
+
+RF08 - Lançamento de Faturas: O sistema deve permitir o lançamento de faturas mensais dentro de um vínculo específico, recebendo como entrada manual: Mês de Referência, Código da UC, Consumo Abatido (kWh) e Saldo Acumulado na Concessionária (kWh).
+
+RF09 - Cálculo Financeiro Automático: Ao lançar uma fatura, o sistema deve calcular de forma automática o Faturamento Bruto (Receita), o Custo Operacional (Repasse à Usina) e o Lucro Líquido daquela operação, salvando-os no histórico.
+
+RF10 - Histórico de Lançamentos: O sistema deve exibir uma tabela cronológica contendo o histórico de todas as faturas e leituras já cadastradas para um determinado vínculo.
+
+3. Requisitos Não Funcionais (RNF)
+Os requisitos não funcionais descrevem as restrições técnicas, de qualidade e de arquitetura do sistema.
+
+RNF01 - Tecnologias de Interface: A interface de usuário (Front-end) deve ser desenvolvida utilizando a biblioteca React.js com a linguagem TypeScript para garantir a integridade dos dados e evitar erros de tipagem.
+
+RNF02 - Responsividade e Estilização: A estilização da aplicação deve ser feita através do framework Tailwind CSS, garantindo que a interface seja responsiva e adaptável a diferentes resoluções de tela.
+
+RNF03 - Persistência de Dados (MVP): Como restrição da fase atual do projeto, o sistema não utilizará um banco de dados hospedado em nuvem. Toda a persistência de dados será feita localmente no navegador do usuário através da API Web Storage (localStorage).
+
+RNF04 - Usabilidade e Feedback (UX): O sistema deve notificar o usuário de forma visual e amigável (através de Toasts) sempre que uma ação importante for concluída (ex: "Vínculo salvo com sucesso" ou "Contrato deletado").
+
+RNF05 - Desempenho: Por rodar integralmente do lado do cliente (Client-side), o tempo de processamento de cálculos financeiros e alternância de telas deve ser inferior a 1 segundo.
+
+4. Regras de Negócio (RN)
+As regras de negócio definem como os cálculos e lógicas internas do sistema operam.
+
+RN01 - Apuração de Receita: A Receita Bruta da fatura é calculada multiplicando o Consumo em kWh informado pelo usuário pela Tarifa de Venda (valor_kw_fixo) configurada no vínculo.
+
+RN02 - Apuração de Custo: O Custo Operacional da fatura é calculado multiplicando o Consumo em kWh pelo Custo de Repasse (valor_kw_bruto) configurado para a usina.
+
+RN03 - Apuração de Lucro Líquido: O Lucro Líquido da fatura é a subtração exata entre a Receita e o Custo daquele mês (Receita - Custo).
+
+RN04 - Exclusão de Contrato: A exclusão de um vínculo acarreta, logicamente, na perda das referências de histórico de faturas associadas àquele ID específico.

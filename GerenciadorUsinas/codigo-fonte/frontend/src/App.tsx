@@ -24,7 +24,7 @@ export default function App() {
             <div className="p-2 bg-amber-500 rounded-lg">
               <Sun className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-xl font-black tracking-tight">SolarManager</h1>
+            <h1 className="text-xl font-black tracking-tight">Gerenciador Solar</h1>
           </div>
 
           <nav className="flex gap-2">

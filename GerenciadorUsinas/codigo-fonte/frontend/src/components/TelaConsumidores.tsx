@@ -26,7 +26,7 @@ const consumidoresIniciais = [
 export default function TelaConsumidores() {
   const [view, setView] = useState<"lista" | "formulario">("lista");
 
-  // Inicialização com localStorage
+
   const [consumidores, setConsumidores] = useState(() => {
     const salvo = localStorage.getItem("consumidores");
     return salvo ? JSON.parse(salvo) : consumidoresIniciais;
